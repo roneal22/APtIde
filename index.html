@@ -5,8 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
 	<script language="javascript">
-		console.log("hey girl");
-		var apiKey = '563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264'; 
+		const apiKey = '563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264'; 
 		function getPexel() {
 			//make request object
 			request = new XMLHttpRequest();
@@ -15,7 +14,7 @@
 			request.open("GET", "https://api.pexels.com/v1/photos/2014422", true)
 			//add key to header
 			console.log("2 - opened request file");
-			request.setRequestHeader("Authorization", apiKey)
+			request.setRequestHeader("Authorization", apiKey);
 
 			request.onreadystatechange = function() {
 				console.log("3 - readystatechange event fired.");
@@ -26,8 +25,13 @@
 					result = request.responseText;
 					alert(result);
 					photoInfo = JSON.parse(result);
+					//https://web.dev/samesite-cookie-recipes/
+					document.cookie = 'url=' + photoInfo["src"]["large"] + '; SameSite=None; Secure';
+					document.cookie = 'url=' + photoInfo["src"]["large"] + '; Secure';
+					document.getElementById("photo").innerHTML = "<img src=\"" + photoInfo["src"]["large"] + "\" alt=\"Pexel Image\">";
+					//document.getElementById("data").innerHTML = "url: " + photoInfo["url"] + " <br>";
+					document.getElementById("data").innerHTML = "photo name: " + photoInfo["photographer"];
 					
-					document.getElementById("data").innerHTML = "photo name: " + photoInfo["photographer"]["alt"]; //CHANGE
 				}
 				else if (request.readyState == 4 && request.status != 200) {
 
@@ -36,8 +40,7 @@
 
 				else if (request.readyState == 3) {
 
-					document.getElementById("data").innerHTML = "Too soon!  Try again";  //CHANGE
-
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
 				}
 
 			}
@@ -49,8 +52,10 @@
 	</script>
 </head>
 
-<body>
+<body onload="getPexel()">
 	<br>
+	<div id="photo"></div>
+	<div id="data"></div>
 	<br>
 	<a href="https://www.pexels.com">Photos provided by Pexels</a>
 
