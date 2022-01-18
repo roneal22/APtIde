@@ -5,13 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
 	<script language="javascript">
-		import { createClient } from 'pexels';
-		const client = createClient('563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264');
-
-		// All requests made with the client will be authenticated
-
+		var apiKey = '563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264'; 
 		function getPexel() {
 			request = new XMLHttpRequest();
+			request.open("GET", "https://api.pexels.com/v1/photos/2014422", true)
+			request.setRequestHeader("Authorization", apiKey)
 
 
 		}
