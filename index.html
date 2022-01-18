@@ -7,10 +7,42 @@
 	<script language="javascript">
 		var apiKey = '563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264'; 
 		function getPexel() {
+			//make request object
 			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+			//set url
 			request.open("GET", "https://api.pexels.com/v1/photos/2014422", true)
+			//add key to header
+			console.log("2 - opened request file");
 			request.setRequestHeader("Authorization", apiKey)
 
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+				if (request.readyState == 4 && request.status == 200) {
+
+					// yay!
+					console.log("5 - response received");
+					result = request.responseText;
+					alert(result);
+					photoInfo = JSON.parse(result);
+					
+					document.getElementById("data").innerHTML = "photo name: " + photoInfo["photographer"]["alt"]; //CHANGE
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "something went wrong :( check the logs for more info";
+				}
+
+				else if (request.readyState == 3) {
+
+					document.getElementById("data").innerHTML = "Too soon!  Try again";  //CHANGE
+
+				}
+
+			}
+			//sendo
+			request.send();
+			console.log("4 - Request sent");
 
 		}
 	</script>
