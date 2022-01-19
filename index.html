@@ -44,13 +44,15 @@
 					document.getElementById("photographerID").innerHTML = "^ their ID: " + photoInfo["photographer_id"];
 				}
 				else if (request.readyState == 4 && request.status != 200) {
-
-					document.getElementById("data").innerHTML = "something went wrong :( press button to try again or check the logs for more info <br> id used: " + randID + "";
+					document.getElementById("photo").innerHTML = "<br><br>you might have used an invalid id. press button to try again or check the logs for more info <br> id used: " + randID + "";
+					document.getElementById("name").innerHTML = "Uh";
+					document.getElementById("photographer").innerHTML = "Oh";
+					document.getElementById("photographerID").innerHTML = ":(";
 				}
 
 				else if (request.readyState == 3) {
-
-					document.getElementById("data").innerHTML = "Too soon!  Try again";
+					document.getElementById("photo").innerHTML = "Too soon!  Try again";
+					//window.alert("Too soon, try again!");
 				}
 
 			}
@@ -69,7 +71,7 @@
 			<br>
 			I chose to work with the Pexels API for this project. Pexels is a website with a vast library of free stock photos and its API lets you access them to include on your own webpage.
 			<br><br>
-			I chose to focus on requesting single images because their responses included the most information per photo and were easy to randomize queries.
+			I chose to focus on requesting single images because their responses included the most information per photo and made it easy to randomize queries.
 			<br><br>
 			This API is extremely helpful for content creation. Images make websites more visually compelling to users. Being able to include quality images and directly integrate them into your website is already helpful, but the Pexels API is free and guarantees that you won't run into any copywrite issues or other trouble. You can use this API to request single images by an ID or several under the same search term. 
 			<br><br>
@@ -84,9 +86,11 @@
 			<div id="info">	
 				<button onclick="getPexel()">Get New Photo</button>
 				<br><br>
-				<div id="name">Info Goes Here<br></div>
-				<div id="photographer"></div>
-				<div id="photographerID"><br></div>
+				<div id="data">
+					<div id="name">Info Goes Here (Not All Photos Have Titles)<br></div>
+					<div id="photographer"></div>
+					<div id="photographerID"><br></div>
+				</div>
 				<br>
 				<a id="credits" href="https://www.pexels.com" style="font-size: 12px; float: right;">Photos provided by Pexels</a>
 			</div>
