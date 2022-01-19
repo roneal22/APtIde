@@ -45,8 +45,7 @@ body {
 }
 
 #photo {
-	line-height: 200px;
-	height: 75%;
+	height: 70%;
 	width: 100%;
 	object-fit: scale-down;
 	text-align: center;
@@ -64,7 +63,7 @@ body {
 
 #info{
   position: absolute;
-  height: 25%;
+  height: 30%;
   width: 100%;
   padding: 10px;
   text-align: center;
