@@ -3,12 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+	<title>Random Photo Generator</title>
+	<link rel="stylesheet" type = "text/css" href="style.css">
 	<script language="javascript">
 		const apiKey = '563492ad6f9170000100000140f73cb4a6574a4292f84f64f4001264'; 
 		function getPexel() {
 			let urlString = "https://api.pexels.com/v1/photos/";
-			urlString += Math.floor(Math.random() * 9000000); //random photo ID
+			let randID = Math.floor(Math.random() * 8999999) + 1000000; //random photo ID, uses 7 digits
+			urlString += randID;
 			//make request object
 			request = new XMLHttpRequest();
 			console.log("1 - request object created");
@@ -28,16 +30,22 @@
 					alert(result);
 					photoInfo = JSON.parse(result);
 					//https://web.dev/samesite-cookie-recipes/
-					document.cookie = 'url=' + photoInfo["src"]["medium"] + '; SameSite=None; Secure';
-					document.cookie = 'url=' + photoInfo["src"]["medium"] + '; Secure';
-					document.getElementById("photo").innerHTML = "<img src=\"" + photoInfo["src"]["medium"] + "\" alt=\"Pexel Image\">";
-					//document.getElementById("data").innerHTML = "url: " + photoInfo["url"] + " <br>";
-					document.getElementById("data").innerHTML = "photo name: " + photoInfo["photographer"];
-					
+					document.cookie = 'src=' + photoInfo["src"]["large"] + '; SameSite=None; Secure';
+					document.cookie = 'src=' + photoInfo["src"]["large"] + '; Secure';
+					document.cookie = 'url=' + photoInfo["url"] + '; SameSite=None; Secure';
+
+					//document.getElementById("photo").innerHTML = "<img src=\"" + photoInfo["src"]["large"] + "\" alt=\"Pexel Image\">";
+
+					document.getElementById("photo").innerHTML = "<a href=\"" + photoInfo["url"] + "\" target=\"_blank\"> <img src=\"" + photoInfo["src"]["large"] + "\" alt=\"Pexel Image\" style=\"object-fit: scale-down;\"> </a>";
+
+					//document.getElementById("link").innerHTML = "<a href=\"" + photoInfo["photographer_url"] + "\" target=\"_blank\"></a>";
+					document.getElementById("name").innerHTML = "Title: " + photoInfo["alt"];
+					document.getElementById("photographer").innerHTML = "<a href=\"" + photoInfo["photographer_url"] + "\" target=\"_blank\"> By: " + photoInfo["photographer"] + "</a>";
+					document.getElementById("photographerID").innerHTML = "^ their ID: " + photoInfo["photographer_id"];
 				}
 				else if (request.readyState == 4 && request.status != 200) {
 
-					document.getElementById("data").innerHTML = "something went wrong :( check the logs for more info";
+					document.getElementById("data").innerHTML = "something went wrong :( press button to try again or check the logs for more info <br> id used: " + randID + "";
 				}
 
 				else if (request.readyState == 3) {
@@ -56,16 +64,33 @@
 
 <body onload="getPexel()">
 	<div class="content">
-		<div class="column left">
+		<div class="column left" style="padding: 20px">
+			<div id=subtitle style="font-size: 5vw;">API FUN</div>
+			<br>
+			I chose to work with the Pexels API for this project. Pexels is a website with a vast library of free stock photos and its API lets you access them to include on your own webpage.
+			<br><br>
+			I chose to focus on requesting single images because their responses included the most information per photo and were easy to randomize queries.
+			<br><br>
+			This API is extremely helpful for content creation. Images make websites more visually compelling to users. Being able to include quality images and directly integrate them into your website is already helpful, but the Pexels API is free and guarantees that you won't run into any copywrite issues or other trouble. You can use this API to request single images by an ID or several under the same search term. 
+			<br><br>
+			A website may want to rotate images that fall under a certain label like "ocean" for a snorkel and kayak rental business or "pets" for an animal shelter. A custom framing business can use images retrieved from the API as examples when showing their different products that will look professional without having to take the photos themselves or use from other customers.
+			<br><br>
+			The possibilities aren't endless, but there sure are a lot of them. 
 		</div>
 		<div class=" column main">
 			<br>
-	<div id="photo">Photo<br></div>
-	<div id="data">Info<br></div>
-	<br>
-	<button onclick="getPexel()">New Photo</button>
-	<br>
-	<a href="https://www.pexels.com">Photos provided by Pexels</a>
+			<div id="photo">Photo Goes Here (this can be a bit slow, please be patient!)</div>
+
+			<div id="info">	
+				<button onclick="getPexel()">Get New Photo</button>
+				<br><br>
+				<div id="name">Info Goes Here<br></div>
+				<div id="photographer"></div>
+				<div id="photographerID"><br></div>
+				<br>
+				<a id="credits" href="https://www.pexels.com" style="font-size: 12px; float: right;">Photos provided by Pexels</a>
+			</div>
+
 		</div>
 	</div>
 	
