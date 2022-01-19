@@ -27,7 +27,7 @@
 					// yay!
 					console.log("5 - response received");
 					result = request.responseText;
-					alert(result);
+					//alert(result);
 					photoInfo = JSON.parse(result);
 					//https://web.dev/samesite-cookie-recipes/
 					document.cookie = 'src=' + photoInfo["src"]["large"] + '; SameSite=None; Secure';
